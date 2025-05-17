@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Shorts Blocker",
+  "version": "1.0",
+  "description": "Blocks Shorts from YouTube to help you stay focused.",
+  "permissions": ["storage", "scripting", "tabs"],
+  "content_scripts": [
+    {
+      "matches": ["*://www.youtube.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup/index.html"
+  }
+}

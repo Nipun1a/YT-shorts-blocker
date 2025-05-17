@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Shorts Blocker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>YouTube Shorts Blocker</h1>
+  <button id="toggleBtn">Toggle Blocker</button>
+  <script>
+    // Simple toggle logic (we'll expand this later)
+    const btn = document.getElementById('toggleBtn');
+
+    chrome.storage.sync.get("enabled", (data) => {
+      btn.textContent = data.enabled ? "Disable Blocker" : "Enable Blocker";
+    });
+
+    btn.addEventListener("click", () => {
+      chrome.storage.sync.get("enabled", (data) => {
+        const newValue = !data.enabled;
+        chrome.storage.sync.set({ enabled: newValue }, () => {
+          btn.textContent = newValue ? "Disable Blocker" : "Enable Blocker";
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+<!-- This is the popup HTML for the extension. It includes a button to toggle the blocker on and off. -->
