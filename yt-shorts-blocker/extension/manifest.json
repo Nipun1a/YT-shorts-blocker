@@ -4,6 +4,7 @@
   "version": "1.0",
   "description": "Blocks Shorts from YouTube to help you stay focused.",
   "permissions": ["storage", "scripting", "tabs"],
+  "host_permissions": ["*://www.youtube.com/*"],
   "content_scripts": [
     {
       "matches": ["*://www.youtube.com/*"],
