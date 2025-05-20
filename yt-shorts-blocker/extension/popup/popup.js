@@ -1,25 +1,35 @@
-const toggle = document.getElementById('toggle');
-const statusText = document.getElementById('status-text');
+const userId = "abc123"; // This would normally come from login
+const toggle = document.getElementById("toggle");
 
-// Load setting
-chrome.storage.sync.get('enabled', (data) => {
-  const enabled = data.enabled !== false;
-  toggle.checked = enabled;
-  statusText.textContent = enabled ? "Blocking Shorts" : "Allowed";
-});
+const API_BASE = "http://localhost:5000/api/settings";
 
-// When toggled
-toggle.addEventListener('change', () => {
-  const isEnabled = toggle.checked;
+async function fetchSetting() {
+  try {
+    const res = await fetch(`${API_BASE}/${userId}`);
+    const data = await res.json();
+    toggle.checked = data.enabled;
+  } catch (err) {
+    console.error("Failed to fetch setting:", err);
+  }
+}
 
-  chrome.storage.sync.set({ enabled: isEnabled }, () => {
-    statusText.textContent = isEnabled ? "Blocking Shorts" : "Allowed";
-
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.scripting.executeScript({
-        target: { tabId: tabs[0].id },
-        files: ['content.js']
-      });
+async function updateSetting(enabled) {
+  try {
+    await fetch(`${API_BASE}/${userId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ enabled }),
     });
-  });
+  } catch (err) {
+    console.error("Failed to update setting:", err);
+  }
+}
+
+toggle.addEventListener("change", () => {
+  updateSetting(toggle.checked);
 });
+
+// Load current setting on popup open
+fetchSetting();
