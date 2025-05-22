@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Setting = require('../models/Setting');
+const Setting = require('../models/setting');
 
 // GET /api/settings/:userId
 router.get('/:userId', async (req, res) => {
