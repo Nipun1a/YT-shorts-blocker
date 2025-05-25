@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ Register routes BEFORE database connection
+// Register routes BEFORE database connection
 app.use('/api/auth', authRoutes);         // Login & Register routes
 app.use('/api/settings', settingsRoutes); // Settings routes
 
